@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // User Model
-const User = require("./userSchema");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
+const User = require('./userSchema');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
-exports.registerUser = (req, res) => {
+User.registerUser = (req, res) => {
   console.log(req.body);
   const newUser = new User({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
   });
 
   // hashar passet
@@ -24,7 +24,7 @@ exports.registerUser = (req, res) => {
       // Save User
       newUser
         .save()
-        .then(res.send("hello")) // redirect to LOGIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        .then(res.json(newUser)) // redirect to LOGIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         .catch(err => console.log(err));
     })
   );
@@ -37,9 +37,11 @@ exports.registerUser = (req, res) => {
 //     res.json({name: "req.user.name"});
 //   });
 
-exports.loginUser = (req, res, next) => {
-  return passport.authenticate("local", {
-    successMessage: "Big Seccuess!",
-    failureMessage: "Loggin Fail!!"
-  })(req, res, next);
-};
+// User.loginUser = (req, res, next) => {
+//   return passport.authenticate('local', {
+//     successMessage: 'Big Seccuess!',
+//     failureMessage: 'Loggin Fail!!',
+//   })(req, res, next);
+// };
+
+module.exports = User;
